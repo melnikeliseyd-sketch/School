@@ -40,10 +40,18 @@ def delete_task(index):
         print(f"Удалено: {removed}")
     except IndexError:
         print("Нет задачи с таким номером.")
+#отметка выполнения задачи
+def mark_done(index):
+    try:
+        tasks[index - 1] = tasks[index - 1] + " (выполнено)"
+        save_tasks()
+        print("Задача отмечена как выполненная.")
+    except IndexError:
+        print("Нет задачи с таким номером.")
 load_tasks()
 
 while True:
-    command = input("\nВведите команду (add/delete/show/exit/): ").strip()
+    command = input("\nВведите команду (add/delete/done/show/exit/): ").strip()
 
     if command == "add":
         task = input("Введите задачу: ")
@@ -53,5 +61,8 @@ while True:
     elif command == "delete":
         num = int(input("Введите номер задачи для удаления: "))
         delete_task(num)
+    elif command == "done":
+        num = int(input("Введите номер задачи для отметки: "))
+        mark_done(num)
     elif command == "exit":
         break
