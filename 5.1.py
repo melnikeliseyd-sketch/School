@@ -1,5 +1,23 @@
 # 5.1 дз
+import json
+import os
+FILENAME = "tasks.json"
 tasks = []
+
+#сохранение/загрузка
+def save_tasks():
+    with open(FILENAME, "w", encoding="utf-8") as f:
+        json.dump(tasks, f, ensure_ascii=False, indent=2)
+    print("Задачи сохранены.")
+
+def load_tasks():
+    global tasks
+    if os.path.exists(FILENAME):
+        with open(FILENAME, "r", encoding="utf-8") as f:
+            tasks = json.load(f)
+        print("Задачи загружены.")
+    else:
+        tasks = []
 
 #показать задачи
 def show_tasks():
@@ -12,14 +30,17 @@ def show_tasks():
 # добавить задачу
 def add_task(task):
     tasks.append(task)
+    save_tasks()
     print(f"Добавлено: {task}")
 #удалить задачу
 def delete_task(index):
     try:
         removed = tasks.pop(index - 1)
+        save_tasks()
         print(f"Удалено: {removed}")
     except IndexError:
         print("Нет задачи с таким номером.")
+load_tasks()
 
 while True:
     command = input("\nВведите команду (add/delete/show/exit/): ").strip()
